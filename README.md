@@ -28,16 +28,14 @@ git clone https://github.com/Devsebastian44/Nextcloud.git
 cd Nextcloud
 ```
 
-Configura el entorno:
+Configura el entorno y leer detenidamente cada configuración:
 
 ```bash
 chmod +x setup.sh
 sudo bash setup.sh
 ```
 
-**NOTA:** Durante la instalación se solicitará varias veces la contraseña de MySQL.  
-Debes ingresar la misma contraseña que configuraste previamente.  
-Para configurar la seguridad de directorios se debe primero instalar nextcloud caso contrario no se podra acceder al sitio.
+**NOTA:** Durante la instalación se solicitará varias veces la contraseña de MySQL. Debes ingresar la misma contraseña que configuraste previamente. Para configurar la seguridad de directorios se debe primero instalar nextcloud caso contrario no se podra acceder al sitio.
 
 ---
 
@@ -46,7 +44,7 @@ Para configurar la seguridad de directorios se debe primero instalar nextcloud c
 Una vez finalizada la instalación, accede a tu servidor desde el navegador:
 
 ```
-http://localhost/nextcloud
+http://localhost/setup-nextcloud.php
 ```
 
 ---
