@@ -280,7 +280,7 @@ mostrar_info_final() {
     echo -e "${BOLD}========================================${NC}"
     echo
     echo -e "${BOLD}Próximos pasos:${NC}"
-    echo -e "1. Abre tu navegador y ve a: ${BOLD}http://$server_ip${NC}"
+    echo -e "1. Abre tu navegador y ve a: ${BOLD}http://$server_ip${NC}/setup-nextcloud.php"
     echo -e "2. Completa la instalación web de Nextcloud"
     echo -e "3. Usa las credenciales guardadas en: ${BOLD}nextcloud_credentials.txt${NC}"
     echo
@@ -320,3 +320,6 @@ main() {
         return 1
     fi
 }
+
+# Ejecutar main
+main
