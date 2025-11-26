@@ -20,6 +20,10 @@ Este repositorio incluye un script para configurar tu propia nube de manera senc
 
 ## 🚀 Instalación
 
+**NOTA:** Durante la instalación se solicitará varias veces la contraseña de MySQL.  
+Debes ingresar la misma contraseña que configuraste previamente.  
+Para configurar la seguridad de directorios se debe primero instalar nextcloud caso contrario no se podra acceder al sitio.
+
 Clona el repositorio y accede al directorio:
 
 ```bash
@@ -33,10 +37,6 @@ Configura el entorno:
 chmod +x setup.sh
 sudo bash setup.sh
 ```
-
-**NOTA:** Durante la instalación se solicitará varias veces la contraseña de MySQL.  
-Debes ingresar la misma contraseña que configuraste previamente.  
-Para configurar la seguridad de directorios se debe primero instalar nextcloud mientras tanto no.
 
 ---
 
