@@ -4,8 +4,7 @@
   <img src="./Img/Logo.png" height="300px" width="350px">
 </p>
 
-**Nextcloud** es una plataforma de almacenamiento y colaboración de código abierto que permite gestionar y compartir archivos, colaborar en documentos, organizar calendarios y tareas, y más.  
-Este repositorio incluye un script para configurar tu propia nube de manera sencilla.
+**Nextcloud** es una plataforma de almacenamiento y colaboración de código abierto que permite gestionar y compartir archivos, colaborar en documentos, organizar calendarios y tareas, y más. Este repositorio incluye un script para configurar tu propia nube de manera sencilla.
 
 ---
 
@@ -64,5 +63,4 @@ Nextcloud/
 
 ## 📜 Licencia
 
-Este proyecto está bajo la licencia GPL.  
-Puedes usarlo libremente con fines educativos y de investigación.
+Este proyecto está bajo la licencia GPL. Puedes usarlo libremente con fines educativos y de investigación.
