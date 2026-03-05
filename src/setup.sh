@@ -53,7 +53,7 @@ verificar_root() {
 # Función para pausar
 pausar() {
     echo
-    read -p "$(echo -e ${BOLD}[+] Presiona ENTER para continuar...${NC})"
+    read -rp "$(echo -e "${BOLD}"[+] Presiona ENTER para continuar..."${NC}")"
 }
 
 # Verificar si un comando existe
@@ -227,6 +227,7 @@ configurar_nextcloud() {
     log "Iniciando configuración de Nextcloud"
     
     if [ -f "scripts/configuracion.sh" ]; then
+        # shellcheck source=scripts/configuracion.sh
         source scripts/configuracion.sh
         log "Script de configuración ejecutado"
     else
@@ -245,6 +246,7 @@ configurar_directorios() {
     log "Iniciando configuración de directorios"
     
     if [ -f "scripts/directorios.sh" ]; then
+        # shellcheck source=scripts/directorios.sh
         source scripts/directorios.sh
         log "Script de directorios ejecutado"
     else
@@ -310,7 +312,7 @@ menu_principal() {
         echo -e "   ${BOLD}[6]${NC} Salir"
         echo
         
-        read -p "$(echo -e ${BOLD}[+] Seleccione una opción: ${NC})" opcion
+        read -rp "$(echo -e "${BOLD}"[+] Seleccione una opción: "${NC}")" opcion
         
         case $opcion in
             1)

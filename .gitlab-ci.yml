@@ -7,7 +7,7 @@ shellcheck:
   stage: lint
   image: koalaman/shellcheck-alpine:latest
   script:
-    - shellcheck src/*.sh scripts/*.sh tests/*.sh
+    - find . -name "*.sh" -exec shellcheck {} +
   allow_failure: true
 
 syntax_check:

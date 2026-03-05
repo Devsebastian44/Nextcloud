@@ -2,7 +2,6 @@
 
 ![Bash](https://img.shields.io/badge/Bash-5.0+-green?logo=gnubash&logoColor=white)
 ![GitLab](https://img.shields.io/badge/GitLab-Private--Lab-orange?logo=gitlab)
-![GitHub](https://img.shields.io/badge/GitHub-Public--Portfolio-black?logo=github)
 ![License](https://img.shields.io/badge/License-GPL--3.0-red)
 ![DevSecOps](https://img.shields.io/badge/Workflow-DevSecOps-blue)
 
@@ -34,6 +33,50 @@ La estructura ha sido reorganizada para cumplir con estándares profesionales de
 └── .gitlab-ci.yml      # Pipeline CI/CD (Entorno privado)
 ```
 
+## 🚀 Instalación y Acceso
+
+> [!IMPORTANT]
+> El repositorio completo con todo el código funcional está disponible en **GitLab** para acceso completo.
+
+https://gitlab.com/group-programming-lab/Nextcloud.git
+
+## 🚀 Instalación y Despliegue
+
+Sigue estos pasos para desplegar el instalador en un entorno Ubuntu limpio:
+
+### Requisitos Previos
+
+- **Sistema Operativo**: Ubuntu 20.04 LTS o superior.
+- **Privilegios**: Acceso de superusuario (`sudo`).
+- **Conectividad**: Acceso a internet para descarga de paquetes.
+
+### Paso a Paso
+
+1.  **Clonar el Repositorio de Desarrollo**:
+    ```bash
+    git clone https://gitlab.com/group-programming-lab/Nextcloud.git
+    cd Nextcloud
+    ```
+
+2.  **Preparar el Script Principal**:
+    Asegúrate de que el script de instalación tenga permisos de ejecución:
+    ```bash
+    chmod +x src/setup.sh
+    ```
+
+3.  **Ejecutar el Instalador**:
+    Inicia el asistente interactivo con privilegios de root:
+    ```bash
+    sudo ./src/setup.sh
+    ```
+
+### Guía del Asistente Interactivo
+El script `src/setup.sh` proporciona un menú profesional para gestionar el despliegue:
+*   **[1] Instalar Requisitos**: Automatiza la actualización del sistema e instala el Stack LEMP.
+*   **[2] Configurar Nextcloud**: Ejecuta la lógica de vinculación con la base de datos y parámetros de red.
+*   **[3] Configurar Seguridad**: Aplica endurecimiento (*hardening*) de permisos en directorios críticos.
+*   **[4] Verificar Estado**: Diagnóstico rápido de servicios y recursos del sistema.
+
 ## 🔄 Flujo DevSecOps (GitLab ➔ GitHub)
 
 Implementamos una estrategia de **Aislamiento de Seguridad** para proteger la propiedad intelectual y los datos sensibles:
@@ -60,6 +103,3 @@ El archivo `scripts/publish_public.ps1` es el corazón de nuestra estrategia de 
 ## ⚠️ Advertencias de Uso
 
 Este software se proporciona con fines educativos y profesionales. El autor no se responsabiliza de malas configuraciones en servidores de producción. Se recomienda encarecidamente revisar las plantillas en `configs/` antes de cualquier despliegue.
-
----
-*Desarrollado con mentalidad DevSecOps para un internet más seguro y privado.*
