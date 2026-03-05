@@ -227,7 +227,7 @@ configurar_nextcloud() {
     log "Iniciando configuración de Nextcloud"
     
     if [ -f "scripts/configuracion.sh" ]; then
-        # shellcheck source=scripts/configuracion.sh
+        # shellcheck source=../scripts/configuracion.sh
         source scripts/configuracion.sh
         log "Script de configuración ejecutado"
     else
@@ -246,7 +246,7 @@ configurar_directorios() {
     log "Iniciando configuración de directorios"
     
     if [ -f "scripts/directorios.sh" ]; then
-        # shellcheck source=scripts/directorios.sh
+        # shellcheck source=../scripts/directorios.sh
         source scripts/directorios.sh
         log "Script de directorios ejecutado"
     else
