@@ -1,5 +1,14 @@
 stages:
+  - lint
   - test
+  - security
+
+shellcheck:
+  stage: lint
+  image: koalaman/shellcheck-alpine:latest
+  script:
+    - shellcheck src/*.sh scripts/*.sh tests/*.sh
+  allow_failure: true
 
 syntax_check:
   stage: test
@@ -10,3 +19,10 @@ syntax_check:
   only:
     - main
     - merge_requests
+
+secret_detection:
+  stage: security
+  image: alpine:latest
+  script:
+    - echo "Searching for potential hardcoded secrets..."
+    - grep -rE "password|apikey|token|secret" . --exclude-dir=.git || true

@@ -226,11 +226,11 @@ configurar_nextcloud() {
     echo -e "${BOLD}=== CONFIGURACIÓN DE NEXTCLOUD ===${NC}"
     log "Iniciando configuración de Nextcloud"
     
-    if [ -f "Scripts/configuracion.sh" ]; then
-        source Scripts/configuracion.sh
+    if [ -f "scripts/configuracion.sh" ]; then
+        source scripts/configuracion.sh
         log "Script de configuración ejecutado"
     else
-        echo -e "${RED}[!]${NC} Error: No se encuentra 'Scripts/configuracion.sh'"
+        echo -e "${RED}[!]${NC} Error: No se encuentra 'scripts/configuracion.sh'"
         echo -e "${YELLOW}[!]${NC} Asegúrate de que el archivo existe en la ruta correcta"
         log "ERROR: Script configuracion.sh no encontrado"
     fi
@@ -244,11 +244,11 @@ configurar_directorios() {
     echo -e "${BOLD}=== CONFIGURACIÓN DE DIRECTORIOS ===${NC}"
     log "Iniciando configuración de directorios"
     
-    if [ -f "Scripts/directorios.sh" ]; then
-        source Scripts/directorios.sh
+    if [ -f "scripts/directorios.sh" ]; then
+        source scripts/directorios.sh
         log "Script de directorios ejecutado"
     else
-        echo -e "${RED}[!]${NC} Error: No se encuentra 'Scripts/directorios.sh'"
+        echo -e "${RED}[!]${NC} Error: No se encuentra 'scripts/directorios.sh'"
         echo -e "${YELLOW}[!]${NC} Asegúrate de que el archivo existe en la ruta correcta"
         log "ERROR: Script directorios.sh no encontrado"
     fi
@@ -356,8 +356,8 @@ menu_principal() {
 main() {
     verificar_root
     
-    # Crear directorio Scripts si no existe
-    mkdir -p Scripts
+    # Crear directorio scripts si no existe
+    mkdir -p scripts
     
     log "===== INICIO DEL INSTALADOR DE NEXTCLOUD ====="
     menu_principal

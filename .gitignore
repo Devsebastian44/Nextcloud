@@ -1,13 +1,26 @@
-# Logs
+# Logs and Backups
 *.log
 nextcloud_install.log
+setup_backup_*
+iptables_backup_*
 
-# Configuraciones sensibles
-# Se permite la plantilla pero se ignoran los archivos reales con credenciales
+# Sensitive Configurations
+# Template allowed, actual files ignored
 configs/*.conf
 !configs/sample_parameters.conf
+.env
+*.env
 
-# Archivos del Sistema Operativo
+# Python / Cache
+__pycache__/
+.pytest_cache/
+.tox/
+.nox/
+.cache/
+*.pyc
+*.pyo
+
+# OS Junk
 .DS_Store
 .DS_Store?
 ._*
@@ -16,11 +29,14 @@ configs/*.conf
 ehthumbs.db
 Thumbs.db
 
-# Archivos de Editores/IDE
+# IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Archivos temporales
+# Misc
 *.tmp
+temp/
+dist/
+build/

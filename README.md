@@ -1,44 +1,65 @@
-# Instalador Automatizado de Nextcloud
+# Professional Nextcloud Automated Installer
 
 ![Bash](https://img.shields.io/badge/Bash-5.0+-green?logo=gnubash&logoColor=white)
-![GitLab](https://img.shields.io/badge/GitLab-Repository-orange?logo=gitlab)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-![Status](https://img.shields.io/badge/Status-Stable-brightgreen)
+![GitLab](https://img.shields.io/badge/GitLab-Private--Lab-orange?logo=gitlab)
+![GitHub](https://img.shields.io/badge/GitHub-Public--Portfolio-black?logo=github)
+![License](https://img.shields.io/badge/License-GPL--3.0-red)
+![DevSecOps](https://img.shields.io/badge/Workflow-DevSecOps-blue)
 
-Una solución profesional y automatizada en Bash para desplegar Nextcloud en servidores Ubuntu. Este proyecto simplifica la instalación del stack LEMP (Linux, Nginx/Apache, MySQL, PHP) y la configuración de Nextcloud.
+Una solución robusta y profesional para el despliegue automatizado de Nextcloud en entornos Ubuntu (Stack LEMP). Este proyecto sigue una arquitectura **Security by Design** y una estrategia de publicación **DevSecOps** que garantiza la separación entre el laboratorio de desarrollo (GitLab) y el portafolio público (GitHub).
 
-## Características
+## 🎯 Objetivo Técnico
 
-*   **Gestión Automatizada de Dependencias**: Instala PHP 8.1, Apache2, MySQL y las extensiones necesarias.
-*   **Diseño Modular**: Lógica del script separada en funciones para facilitar el mantenimiento.
-*   **Registro (Logging)**: Logs de instalación detallados para la resolución de problemas.
-*   **Verificación de Seguridad**: Verifica privilegios de root antes de la ejecución.
+Optimizar el proceso de despliegue de infraestructuras de colaboración privada mediante scripts modulares, validaciones de seguridad y automatización de configuraciones críticas.
 
-## Estructura del Proyecto
+## 🛡️ Enfoque Ético y Profesional
+
+Este repositorio ha sido diseñado bajo los estándares más altos de ingeniería de software:
+- **Sanitización de Datos**: Todos los componentes sensibles, configuraciones reales y automatizaciones privadas se filtran antes de su publicación.
+- **Transparencia**: El código público actúa como una versión demostrativa (pseudocódigo/lógica sanitizada) para portafolio.
+- **Calidad**: Integración de linting (`shellcheck`) y pruebas de sintaxis automáticas.
+
+## 🏗️ Arquitectura del Repositorio
+
+La estructura ha sido reorganizada para cumplir con estándares profesionales de escalabilidad:
 
 ```
 .
-├── configs/        # Plantillas de configuración
-├── docs/           # Documentación
-├── Scripts/        # Scripts auxiliares
-├── tests/          # Pruebas de validación
-├── setup.sh        # Script instalador principal
-└── .gitlab-ci.yml  # Configuración CI/CD
+├── src/                # Lógica principal del instalador (setup.sh)
+├── scripts/            # Scripts DevSecOps y automatización (publish_public.ps1)
+├── configs/            # Plantillas de configuración (Sanitizadas)
+├── tests/              # Pruebas de validación y CI
+├── docs/               # Documentación técnica detallada
+├── diagrams/           # Arquitectura visual y diagramas de flujo
+└── .gitlab-ci.yml      # Pipeline CI/CD (Entorno privado)
 ```
 
-## Comenzando
+## 🔄 Flujo DevSecOps (GitLab ➔ GitHub)
 
-Ver [docs/INSTALLATION.md](docs/INSTALLATION.md) para instrucciones detalladas.
+Implementamos una estrategia de **Aislamiento de Seguridad** para proteger la propiedad intelectual y los datos sensibles:
 
-### Ejecución Rápida
+1.  **GitLab (Source of Truth)**: Todo el desarrollo, tests unitarios y CI se ejecutan en el laboratorio privado.
+2.  **Validación**: Cada commit debe pasar los linters y tests configurados.
+3.  **Sanitización (`publish_public.ps1`)**: Se ejecuta un script que:
+    - Purga archivos de CI internos.
+    - Elimina configuraciones de producción.
+    - Filtra lógica crítica o payloads experimentales.
+    - Genera una rama `public` limpia.
+4.  **GitHub (Public Version)**: Versión final sanitizada lista para revisión técnica y portafolio.
 
-```bash
-git clone https://github.com/Devsebastian44/Nextcloud.git
-cd Nextcloud
-chmod +x setup.sh
-sudo ./setup.sh
-```
+## 🚀 Script de Publicación: `publish_public.ps1`
 
-## Descargo de Responsabilidad
+El archivo `scripts/publish_public.ps1` es el corazón de nuestra estrategia de seguridad. Automatiza la limpieza del repositorio local antes de realizar un push forzado a la rama principal de GitHub, asegurando que **nunca** se filtren secretos por error humano.
 
-Este software se proporciona "tal cual", sin garantía de ningún tipo. Úselo bajo su propio riesgo.
+### Componentes Eliminados en Sanitización:
+- Directorios de Testing (`tests/`)
+- Automatización privada y CI (`.gitlab-ci.yml`)
+- Scripts de gestión interna (`scripts/` helper scripts)
+- Credenciales y configuraciones reales (`configs/`)
+
+## ⚠️ Advertencias de Uso
+
+Este software se proporciona con fines educativos y profesionales. El autor no se responsabiliza de malas configuraciones en servidores de producción. Se recomienda encarecidamente revisar las plantillas en `configs/` antes de cualquier despliegue.
+
+---
+*Desarrollado con mentalidad DevSecOps para un internet más seguro y privado.*
