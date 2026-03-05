@@ -1,8 +1,8 @@
+#!/bin/bash
 # ============================================================================
 # directorios.sh - Script de seguridad de directorios (MEJORADO)
 # ============================================================================
 
-#!/bin/bash
 
 # Colores
 RED='\033[0;31m'
@@ -24,7 +24,8 @@ log() {
 # Función para hacer backup de configuración
 backup_config() {
     local archivo=$1
-    local backup="${archivo}.backup.$(date +%Y%m%d_%H%M%S)"
+    local backup
+    backup="${archivo}.backup.$(date +%Y%m%d_%H%M%S)"
     
     if [ -f "$archivo" ]; then
         cp "$archivo" "$backup"
@@ -92,7 +93,8 @@ configurar_seguridad_apache() {
     # Agregar headers de seguridad
     echo -e "${YELLOW}[*]${NC} Configurando headers de seguridad..."
     
-    local security_headers="
+    local security_headers
+    security_headers="
 # Security Headers
 <IfModule mod_headers.c>
     # Prevenir clickjacking

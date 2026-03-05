@@ -13,7 +13,7 @@ BOLD='\033[1m'
 # Variables
 LOG_FILE="nextcloud_config.log"
 NEXTCLOUD_DIR="/var/www/html/nextcloud"
-NEXTCLOUD_VERSION="latest"
+# NEXTCLOUD_VERSION="latest"
 
 # Función de logging
 log() {
@@ -25,7 +25,7 @@ validar_contrasena() {
     local pass=$1
     local len=${#pass}
     
-    if [ $len -lt 8 ]; then
+    if [ "$len" -lt 8 ]; then
         echo -e "${RED}[!] La contraseña debe tener al menos 8 caracteres${NC}"
         return 1
     fi
@@ -49,9 +49,9 @@ configurar_mysql() {
     
     # Solicitar contraseña con confirmación
     while true; do
-        read -sp "$(echo -e ${BOLD}[+] Contraseña para MySQL root: ${NC})" contrasena_root
+        read -srp "$(echo -e "${BOLD}"[+] Contraseña para MySQL root: "${NC}")" contrasena_root
         echo
-        read -sp "$(echo -e ${BOLD}[+] Confirmar contraseña: ${NC})" contrasena_root_confirm
+        read -srp "$(echo -e "${BOLD}"[+] Confirmar contraseña: "${NC}")" contrasena_root_confirm
         echo
         
         if [ "$contrasena_root" != "$contrasena_root_confirm" ]; then
@@ -60,7 +60,7 @@ configurar_mysql() {
         fi
         
         if ! validar_contrasena "$contrasena_root"; then
-            read -p "$(echo -e ${YELLOW}[?] ¿Continuar con esta contraseña? [s/N]: ${NC})" continuar
+            read -rp "$(echo -e "${YELLOW}"[?] ¿Continuar con esta contraseña? [s/N]: "${NC}")" continuar
             if [[ ! "$continuar" =~ ^[Ss]$ ]]; then
                 continue
             fi
@@ -82,9 +82,9 @@ configurar_mysql() {
     # Solicitar contraseña para usuario nextcloud
     echo
     while true; do
-        read -sp "$(echo -e ${BOLD}[+] Contraseña para usuario 'nextcloud' en MySQL: ${NC})" contrasena_nextcloud
+        read -srp "$(echo -e "${BOLD}"[+] Contraseña para usuario 'nextcloud' en MySQL: "${NC}")" contrasena_nextcloud
         echo
-        read -sp "$(echo -e ${BOLD}[+] Confirmar contraseña: ${NC})" contrasena_nextcloud_confirm
+        read -srp "$(echo -e "${BOLD}"[+] Confirmar contraseña: "${NC}")" contrasena_nextcloud_confirm
         echo
         
         if [ "$contrasena_nextcloud" != "$contrasena_nextcloud_confirm" ]; then
@@ -93,7 +93,7 @@ configurar_mysql() {
         fi
         
         if ! validar_contrasena "$contrasena_nextcloud"; then
-            read -p "$(echo -e ${YELLOW}[?] ¿Continuar con esta contraseña? [s/N]: ${NC})" continuar
+            read -rp "$(echo -e "${YELLOW}"[?] ¿Continuar con esta contraseña? [s/N]: "${NC}")" continuar
             if [[ ! "$continuar" =~ ^[Ss]$ ]]; then
                 continue
             fi
@@ -137,14 +137,16 @@ configurar_mysql() {
     
     # Guardar credenciales en archivo seguro
     local cred_file="nextcloud_credentials.txt"
-    echo "=== CREDENCIALES DE NEXTCLOUD ===" > "$cred_file"
-    echo "Fecha: $(date)" >> "$cred_file"
-    echo "" >> "$cred_file"
-    echo "Base de datos: nextcloud" >> "$cred_file"
-    echo "Usuario DB: nextcloud" >> "$cred_file"
-    echo "Contraseña DB: $contrasena_nextcloud" >> "$cred_file"
-    echo "" >> "$cred_file"
-    echo "IMPORTANTE: Guarda este archivo en un lugar seguro y elimínalo del servidor" >> "$cred_file"
+    {
+        echo "=== CREDENCIALES DE NEXTCLOUD ==="
+        echo "Fecha: $(date)"
+        echo ""
+        echo "Base de datos: nextcloud"
+        echo "Usuario DB: nextcloud"
+        echo "Contraseña DB: $contrasena_nextcloud"
+        echo ""
+        echo "IMPORTANTE: Guarda este archivo en un lugar seguro y elimínalo del servidor"
+    } > "$cred_file"
     chmod 600 "$cred_file"
     
     echo -e "\n${GREEN}[✓]${NC} Credenciales guardadas en: $cred_file"
@@ -272,7 +274,8 @@ instalar_nextcloud() {
 
 # Función para mostrar información final
 mostrar_info_final() {
-    local server_ip=$(hostname -I | awk '{print $1}')
+    local server_ip
+    server_ip=$(hostname -I | awk '{print $1}')
     
     echo
     echo -e "${BOLD}========================================${NC}"
