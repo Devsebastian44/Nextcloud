@@ -3,9 +3,10 @@
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-20.04%2B-E95420?style=flat&logo=ubuntu&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Bash_5.0%2B-4EAA25?style=flat&logo=gnubash&logoColor=white)
 ![Nextcloud](https://img.shields.io/badge/Nextcloud-Self--Hosted-0082C9?style=flat&logo=nextcloud&logoColor=white)
-![Nginx](https://img.shields.io/badge/Web_Server-Nginx-009639?style=flat&logo=nginx&logoColor=white)
 ![MySQL](https://img.shields.io/badge/Database-MySQL%2FMariaDB-4479A1?style=flat&logo=mysql&logoColor=white)
 ![License](https://img.shields.io/badge/License-GPL--3.0-red?style=flat)
+
+---
 
 ## 🧠 Overview
 
