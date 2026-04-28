@@ -18,6 +18,7 @@ log() {
 
 # Función para mostrar banner
 banner() {
+    if [ "$NON_INTERACTIVE" = true ]; then return; fi
     clear
     echo
     echo -e "${BLUE}  _______                   __         .__                   .___       ${NC}"
@@ -52,6 +53,7 @@ verificar_root() {
 
 # Función para pausar
 pausar() {
+    if [ "$NON_INTERACTIVE" = true ]; then return; fi
     echo
     read -rp "$(echo -e "${BOLD}"[+] Presiona ENTER para continuar..."${NC}")"
 }

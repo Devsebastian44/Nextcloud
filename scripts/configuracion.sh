@@ -47,26 +47,29 @@ configurar_mysql() {
     echo -e "${BOLD}=== CONFIGURACIÓN DE MYSQL ===${NC}"
     log "Iniciando configuración de MySQL"
     
-    # Solicitar contraseña con confirmación
-    while true; do
-        read -srp "$(echo -e "${BOLD}"[+] Contraseña para MySQL root: "${NC}")" contrasena_root
-        echo
-        read -srp "$(echo -e "${BOLD}"[+] Confirmar contraseña: "${NC}")" contrasena_root_confirm
-        echo
-        
-        if [ "$contrasena_root" != "$contrasena_root_confirm" ]; then
-            echo -e "${RED}[!] Las contraseñas no coinciden. Intenta de nuevo.${NC}"
-            continue
-        fi
-        
-        if ! validar_contrasena "$contrasena_root"; then
-            read -rp "$(echo -e "${YELLOW}"[?] ¿Continuar con esta contraseña? [s/N]: "${NC}")" continuar
-            if [[ ! "$continuar" =~ ^[Ss]$ ]]; then
+    # Solicitar contraseña con confirmación (si no están ya seteadas)
+    if [ -z "$DB_ROOT_PASS" ]; then
+        while true; do
+            read -srp "$(echo -e "${BOLD}"[+] Contraseña para MySQL root: "${NC}")" contrasena_root
+            echo
+            read -srp "$(echo -e "${BOLD}"[+] Confirmar contraseña: "${NC}")" contrasena_root_confirm
+            echo
+            
+            if [ "$contrasena_root" != "$contrasena_root_confirm" ]; then
+                echo -e "${RED}[!] Las contraseñas no coinciden. Intenta de nuevo.${NC}"
                 continue
             fi
-        fi
-        break
-    done
+            
+            if ! validar_contrasena "$contrasena_root"; then
+                read -rp "$(echo -e "${YELLOW}"[?] ¿Continuar con esta contraseña? [s/N]: "${NC}")" continuar
+                if [[ ! "$continuar" =~ ^[Ss]$ ]]; then
+                    continue
+                fi
+            fi
+            DB_ROOT_PASS="$contrasena_root"
+            break
+        done
+    fi
     
     # Cambiar contraseña de root en MySQL
     echo -e "\n${YELLOW}[*]${NC} Configurando contraseña de root en MySQL..."
@@ -79,31 +82,34 @@ configurar_mysql() {
         return 1
     fi
     
-    # Solicitar contraseña para usuario nextcloud
-    echo
-    while true; do
-        read -srp "$(echo -e "${BOLD}"[+] Contraseña para usuario 'nextcloud' en MySQL: "${NC}")" contrasena_nextcloud
+    # Solicitar contraseña para usuario nextcloud (si no están ya seteadas)
+    if [ -z "$DB_PASS" ]; then
         echo
-        read -srp "$(echo -e "${BOLD}"[+] Confirmar contraseña: "${NC}")" contrasena_nextcloud_confirm
-        echo
-        
-        if [ "$contrasena_nextcloud" != "$contrasena_nextcloud_confirm" ]; then
-            echo -e "${RED}[!] Las contraseñas no coinciden. Intenta de nuevo.${NC}"
-            continue
-        fi
-        
-        if ! validar_contrasena "$contrasena_nextcloud"; then
-            read -rp "$(echo -e "${YELLOW}"[?] ¿Continuar con esta contraseña? [s/N]: "${NC}")" continuar
-            if [[ ! "$continuar" =~ ^[Ss]$ ]]; then
+        while true; do
+            read -srp "$(echo -e "${BOLD}"[+] Contraseña para usuario 'nextcloud' en MySQL: "${NC}")" contrasena_nextcloud
+            echo
+            read -srp "$(echo -e "${BOLD}"[+] Confirmar contraseña: "${NC}")" contrasena_nextcloud_confirm
+            echo
+            
+            if [ "$contrasena_nextcloud" != "$contrasena_nextcloud_confirm" ]; then
+                echo -e "${RED}[!] Las contraseñas no coinciden. Intenta de nuevo.${NC}"
                 continue
             fi
-        fi
-        break
-    done
+            
+            if ! validar_contrasena "$contrasena_nextcloud"; then
+                read -rp "$(echo -e "${YELLOW}"[?] ¿Continuar con esta contraseña? [s/N]: "${NC}")" continuar
+                if [[ ! "$continuar" =~ ^[Ss]$ ]]; then
+                    continue
+                fi
+            fi
+            DB_PASS="$contrasena_nextcloud"
+            break
+        done
+    fi
     
     # Crear usuario de Nextcloud
     echo -e "\n${YELLOW}[*]${NC} Creando usuario 'nextcloud' en MySQL..."
-    if mysql -u root -p"$contrasena_root" -e "CREATE USER IF NOT EXISTS 'nextcloud'@'localhost' IDENTIFIED BY '$contrasena_nextcloud';" 2>> "$LOG_FILE"; then
+    if mysql -u root -p"$DB_ROOT_PASS" -e "CREATE USER IF NOT EXISTS 'nextcloud'@'localhost' IDENTIFIED BY '$DB_PASS';" 2>> "$LOG_FILE"; then
         echo -e "${GREEN}[✓]${NC} Usuario 'nextcloud' creado"
         log "Usuario nextcloud creado en MySQL"
     else
@@ -114,7 +120,7 @@ configurar_mysql() {
     
     # Crear base de datos
     echo -e "${YELLOW}[*]${NC} Creando base de datos 'nextcloud'..."
-    if mysql -u root -p"$contrasena_root" -e "CREATE DATABASE IF NOT EXISTS nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;" 2>> "$LOG_FILE"; then
+    if mysql -u root -p"$DB_ROOT_PASS" -e "CREATE DATABASE IF NOT EXISTS nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;" 2>> "$LOG_FILE"; then
         echo -e "${GREEN}[✓]${NC} Base de datos 'nextcloud' creada"
         log "Base de datos nextcloud creada"
     else
@@ -125,8 +131,8 @@ configurar_mysql() {
     
     # Otorgar privilegios
     echo -e "${YELLOW}[*]${NC} Otorgando privilegios..."
-    if mysql -u root -p"$contrasena_root" -e "GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost';" 2>> "$LOG_FILE" && \
-       mysql -u root -p"$contrasena_root" -e "FLUSH PRIVILEGES;" 2>> "$LOG_FILE"; then
+    if mysql -u root -p"$DB_ROOT_PASS" -e "GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost';" 2>> "$LOG_FILE" && \
+       mysql -u root -p"$DB_ROOT_PASS" -e "FLUSH PRIVILEGES;" 2>> "$LOG_FILE"; then
         echo -e "${GREEN}[✓]${NC} Privilegios otorgados"
         log "Privilegios otorgados al usuario nextcloud"
     else
@@ -143,7 +149,7 @@ configurar_mysql() {
         echo ""
         echo "Base de datos: nextcloud"
         echo "Usuario DB: nextcloud"
-        echo "Contraseña DB: $contrasena_nextcloud"
+        echo "Contraseña DB: $DB_PASS"
         echo ""
         echo "IMPORTANTE: Guarda este archivo en un lugar seguro y elimínalo del servidor"
     } > "$cred_file"
