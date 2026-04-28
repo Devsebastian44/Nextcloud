@@ -14,7 +14,7 @@
 
 ## 🧠 Overview
 
-Este proyecto es un **instalador automatizado de Nextcloud** para entornos Ubuntu, construido íntegramente en Bash. A partir del análisis de la estructura del repositorio y sus archivos clave, el script principal (`src/setup.sh`) orquesta el despliegue completo de un stack **LEMP** (Linux + Nginx + MySQL/MariaDB + PHP) y la configuración de Nextcloud sobre él, a través de un asistente interactivo por menú que guía al administrador en cada etapa del proceso.
+Este proyecto es un **instalador automatizado de Nextcloud** para entornos Ubuntu, construido íntegramente en Bash. A partir del análisis de la estructura del repositorio y sus archivos clave, el script principal (`src/setup.sh`) orquesta el despliegue completo de un stack **LAMP** (Linux + Apache + MySQL/MariaDB + PHP) y la configuración de Nextcloud sobre él, a través de un asistente interactivo por menú que guía al administrador en cada etapa del proceso.
 
 El proyecto sigue una estrategia **DevSecOps** centrada en la automatización del despliegue y la seguridad de la infraestructura, garantizando que cada componente esté configurado siguiendo las mejores prácticas de la industria.
 
@@ -23,10 +23,10 @@ El proyecto sigue una estrategia **DevSecOps** centrada en la automatización de
 ## ⚙️ Features
 
 - **Asistente interactivo por menú** — `setup.sh` presenta un menú modular que permite ejecutar cada fase del despliegue de forma independiente o secuencial.
-- **Instalación del stack LEMP** — Automatiza la instalación y configuración de Nginx como servidor web, MySQL/MariaDB como base de datos y PHP con las extensiones requeridas por Nextcloud.
-- **Despliegue de Nextcloud** — Descarga, descomprime y enlaza Nextcloud al directorio web de Nginx, configurando la base de datos y los parámetros de red del servidor.
-- **Hardening de seguridad** — Aplica endurecimiento de permisos en directorios críticos de Nextcloud (`/var/www/nextcloud/`) para cumplir con las recomendaciones de seguridad oficiales.
-- **Diagnóstico del sistema** — Opción de verificación de estado que reporta el estado de los servicios activos (Nginx, MySQL, PHP-FPM) y recursos del sistema.
+- **Instalación del stack LAMP** — Automatiza la instalación y configuración de Apache2 como servidor web, MySQL/MariaDB como base de datos y PHP con las extensiones requeridas por Nextcloud.
+- **Despliegue de Nextcloud** — Descarga, descomprime y enlaza Nextcloud al directorio web de Apache, configurando la base de datos y los parámetros de red del servidor.
+- **Hardening de seguridad** — Aplica endurecimiento de permisos en directorios críticos de Nextcloud (`/var/www/html/nextcloud/`) para cumplir con las recomendaciones de seguridad oficiales.
+- **Diagnóstico del sistema** — Opción de verificación de estado que reporta el estado de los servicios activos (Apache2, MySQL, PHP) y recursos del sistema.
 - **Documentación técnica detallada** — Guías completas en la carpeta `docs/` que cubren desde la arquitectura hasta el mantenimiento del sistema.
 - **Documentación técnica separada** — Carpeta `docs/` con documentación detallada del proceso de despliegue, independiente del código fuente.
 
@@ -38,7 +38,7 @@ El proyecto sigue una estrategia **DevSecOps** centrada en la automatización de
 |---|---|
 | Sistema Operativo | Ubuntu 20.04 LTS o superior |
 | Lenguaje de scripting | Bash / Shell |
-| Servidor web | Nginx |
+| Servidor web | Apache2 |
 | Base de datos | MySQL / MariaDB |
 | Lenguaje backend | PHP (con extensiones Nextcloud) |
 | Aplicación desplegada | Nextcloud (plataforma self-hosted) |
@@ -92,7 +92,7 @@ Al ejecutar `sudo ./src/setup.sh`, se presenta un menú interactivo con las sigu
 **Flujo recomendado de ejecución:**
 
 ```bash
-# Paso 1 — Instalar el stack LEMP (Nginx, MySQL, PHP)
+# Paso 1 — Instalar el stack LAMP (Apache, MySQL, PHP)
 Seleccionar opción [1]
 
 # Paso 2 — Desplegar y vincular Nextcloud con la base de datos
@@ -108,17 +108,14 @@ Seleccionar opción [4]
 **Verificación manual post-instalación:**
 
 ```bash
-# Estado de Nginx
-sudo systemctl status nginx
+# Estado de Apache2
+sudo systemctl status apache2
 
 # Estado de MySQL/MariaDB
 sudo systemctl status mysql
 
-# Estado de PHP-FPM
-sudo systemctl status php*-fpm
-
 # Acceder a Nextcloud desde el navegador
-http://<IP_DEL_SERVIDOR>/nextcloud
+http://<IP_DEL_SERVIDOR>/
 ```
 
 ---
@@ -154,7 +151,7 @@ Este proyecto despliega una plataforma de colaboración privada. Se consideran l
 
 - **Hardening de permisos** — El script aplica restricciones de propiedad y permisos sobre los directorios de Nextcloud (`www-data`, `750/640`) para limitar la exposición de archivos sensibles.
 - **Separación de credenciales** — Las configuraciones reales de base de datos y parámetros de red son filtradas por el pipeline de sanitización antes de la publicación pública; nunca deben commitearse credenciales reales.
-- **Nginx como proxy seguro** — Se recomienda configurar HTTPS con certificado SSL/TLS (Let's Encrypt o autofirmado) sobre Nginx antes de exponer Nextcloud a redes públicas.
+- **Apache como servidor seguro** — Se recomienda configurar HTTPS con certificado SSL/TLS (Let's Encrypt o autofirmado) sobre Apache antes de exponer Nextcloud a redes públicas.
 - **PHP hardening** — Verificar que `php.ini` tenga deshabilitadas directivas como `expose_php`, `display_errors` y configurados límites de subida adecuados (`upload_max_filesize`, `post_max_size`).
 - **MySQL/MariaDB** — Ejecutar `mysql_secure_installation` tras la instalación para eliminar usuarios anónimos, deshabilitar el acceso root remoto y eliminar bases de datos de prueba.
 - **Firewall** — Se recomienda configurar `ufw` para permitir únicamente los puertos necesarios (80, 443) y bloquear accesos directos al puerto de base de datos (3306).
