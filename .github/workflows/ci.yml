@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y shellcheck
+
+    - name: Run Syntax Check
+      run: |
+        chmod +x tests/test_syntax.sh
+        ./tests/test_syntax.sh
+
+    - name: Run ShellCheck
+      run: |
+        chmod +x tests/test_lint.sh
+        ./tests/test_lint.sh
+
+    - name: Verify Environment Template
+      run: |
+        if [ ! -f .env.example ]; then
+          echo ".env.example is missing!"
+          exit 1
+        fi
