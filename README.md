@@ -4,7 +4,11 @@
 ![Shell](https://img.shields.io/badge/Shell-Bash_5.0%2B-4EAA25?style=flat&logo=gnubash&logoColor=white)
 ![Nextcloud](https://img.shields.io/badge/Nextcloud-Self--Hosted-0082C9?style=flat&logo=nextcloud&logoColor=white)
 ![MySQL](https://img.shields.io/badge/Database-MySQL%2FMariaDB-4479A1?style=flat&logo=mysql&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?style=flat&logo=github-actions&logoColor=white)
 ![License](https://img.shields.io/badge/License-GPL--3.0-red?style=flat)
+
+> [!CAUTION]
+> This project is for educational and ethical cybersecurity purposes only. The author is not responsible for any misuse or damage caused by this software.
 
 ---
 
@@ -12,7 +16,7 @@
 
 Este proyecto es un **instalador automatizado de Nextcloud** para entornos Ubuntu, construido íntegramente en Bash. A partir del análisis de la estructura del repositorio y sus archivos clave, el script principal (`src/setup.sh`) orquesta el despliegue completo de un stack **LEMP** (Linux + Nginx + MySQL/MariaDB + PHP) y la configuración de Nextcloud sobre él, a través de un asistente interactivo por menú que guía al administrador en cada etapa del proceso.
 
-El proyecto sigue una estrategia **DevSecOps** con separación explícita entre entorno de desarrollo privado (GitLab) y portafolio público (GitHub), empleando un pipeline de sanitización automatizado (`publish_public.ps1`) que filtra configuraciones reales, credenciales y lógica interna antes de cada publicación pública.
+El proyecto sigue una estrategia **DevSecOps** centrada en la automatización del despliegue y la seguridad de la infraestructura, garantizando que cada componente esté configurado siguiendo las mejores prácticas de la industria.
 
 ---
 
@@ -23,7 +27,7 @@ El proyecto sigue una estrategia **DevSecOps** con separación explícita entre 
 - **Despliegue de Nextcloud** — Descarga, descomprime y enlaza Nextcloud al directorio web de Nginx, configurando la base de datos y los parámetros de red del servidor.
 - **Hardening de seguridad** — Aplica endurecimiento de permisos en directorios críticos de Nextcloud (`/var/www/nextcloud/`) para cumplir con las recomendaciones de seguridad oficiales.
 - **Diagnóstico del sistema** — Opción de verificación de estado que reporta el estado de los servicios activos (Nginx, MySQL, PHP-FPM) y recursos del sistema.
-- **Pipeline DevSecOps** — Script `publish_public.ps1` en PowerShell que automatiza la sanitización y publicación del repositorio desde GitLab hacia GitHub, eliminando artefactos sensibles antes de cada push.
+- **Documentación técnica detallada** — Guías completas en la carpeta `docs/` que cubren desde la arquitectura hasta el mantenimiento del sistema.
 - **Documentación técnica separada** — Carpeta `docs/` con documentación detallada del proceso de despliegue, independiente del código fuente.
 
 ---
@@ -38,8 +42,7 @@ El proyecto sigue una estrategia **DevSecOps** con separación explícita entre 
 | Base de datos | MySQL / MariaDB |
 | Lenguaje backend | PHP (con extensiones Nextcloud) |
 | Aplicación desplegada | Nextcloud (plataforma self-hosted) |
-| Pipeline de sanitización | PowerShell (`publish_public.ps1`) |
-| Control de versiones | Git (GitHub + GitLab) |
+| Control de versiones | Git (GitHub) |
 
 ---
 
@@ -52,31 +55,17 @@ El proyecto sigue una estrategia **DevSecOps** con separación explícita entre 
 - Conexión a Internet activa
 - Al menos **2 GB de RAM** y **10 GB de espacio en disco** (recomendado para Nextcloud)
 
-### Instalación desde GitLab (fuente completa)
+### Instalación
 
 ```bash
-# 1. Clonar el repositorio completo
-git clone https://gitlab.com/group-programming-lab/Nextcloud.git
+# 1. Clonar el repositorio
+git clone https://github.com/devsebastian44/Nextcloud.git
 cd Nextcloud
 
 # 2. Otorgar permisos de ejecución al script principal
 chmod +x src/setup.sh
 
 # 3. Ejecutar el instalador con privilegios de root
-sudo ./src/setup.sh
-```
-
-### Instalación desde GitHub (versión pública)
-
-```bash
-# 1. Clonar la versión pública del repositorio
-git clone https://github.com/devsebastian44/Nextcloud.git
-cd Nextcloud
-
-# 2. Otorgar permisos de ejecución
-chmod +x src/setup.sh
-
-# 3. Ejecutar el instalador
 sudo ./src/setup.sh
 ```
 
@@ -155,7 +144,7 @@ Nextcloud/
 └── README.md                      # Documentación pública del repositorio
 ```
 
-> 📌 La versión completa en GitLab incluye adicionalmente: `configs/` (plantillas de configuración), `tests/` (validaciones y CI), `scripts/publish_public.ps1` (pipeline de sanitización) y `.gitlab-ci.yml` (pipeline CI/CD privado).
+> 📌 El repositorio incluye adicionalmente: `configs/` (plantillas de configuración) y `tests/` (validaciones y pruebas unitarias).
 
 ---
 
@@ -171,39 +160,36 @@ Este proyecto despliega una plataforma de colaboración privada. Se consideran l
 - **Firewall** — Se recomienda configurar `ufw` para permitir únicamente los puertos necesarios (80, 443) y bloquear accesos directos al puerto de base de datos (3306).
 - **Uso responsable** — Este proyecto está diseñado para **entornos educativos, laboratorios y despliegues controlados**. Revisar y adaptar todos los archivos de configuración antes de cualquier uso en producción.
 
-> ⚠️ El código público en GitHub es una versión sanitizada. Para el despliegue completo y funcional, utilizar el repositorio de GitLab.
+> ⚠️ Este repositorio contiene la versión completa y funcional del instalador. Se recomienda revisar los archivos de configuración en `configs/` antes del despliegue.
 
 ---
 
-## 🌐 Repository Architecture
+## 🧪 Testing
 
-Este proyecto sigue una arquitectura distribuida con separación de ambientes:
+El proyecto incluye scripts de validación para asegurar la calidad del código:
 
-- **GitHub** — Versión pública sanitizada: documentación, portafolio técnico y referencia del proyecto
-- **GitLab** — Fuente de verdad: implementación completa, pipeline CI/CD, tests, configuraciones y laboratorio de desarrollo privado
+```bash
+# Ejecutar verificación de sintaxis
+./tests/test_syntax.sh
 
-### Pipeline DevSecOps (GitLab → GitHub)
-
-```
-[GitLab - Source of Truth]
-       │
-       ▼
-[Validación: shellcheck + linting]
-       │
-       ▼
-[publish_public.ps1 — Sanitización]
-  · Elimina configs reales
-  · Filtra credenciales
-  · Purga tests y CI internos
-  · Genera rama `public` limpia
-       │
-       ▼
-[GitHub - Versión Pública]
+# Ejecutar linting (requiere shellcheck)
+./tests/test_lint.sh
 ```
 
-### 🔗 Full Source Code
+Los tests se ejecutan automáticamente en cada Pull Request mediante **GitHub Actions**.
 
-👉 Código completo disponible en GitLab: [https://gitlab.com/group-programming-lab/Nextcloud](https://gitlab.com/group-programming-lab/Nextcloud)
+---
+
+## 🤝 Contributing
+
+¡Las contribuciones son bienvenidas! Si deseas mejorar el instalador:
+
+1. **Fork** el proyecto.
+2. Crea una rama para tu mejora (`git checkout -b feature/amazing-feature`).
+3. Realiza tus cambios y asegúrate de que los tests pasen.
+4. **Commit** tus cambios siguiendo el estándar [Conventional Commits](https://www.conventionalcommits.org/).
+5. **Push** a la rama (`git push origin feature/amazing-feature`).
+6. Abre un **Pull Request**.
 
 ---
 
